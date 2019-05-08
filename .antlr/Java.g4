@@ -1,7 +1,7 @@
 grammar Java;
 
 compilationUnit
-	: typeDeclaration* EOF
+	: typeDeclaration EOF
 	| Whitespace*
 	| Comment*
 	| LineComment*
@@ -31,7 +31,36 @@ classBodyDeclaration
 	;
 
 fieldDeclaration
-	: fieldModifier* fieldType Identifier ';' ( fieldModifier* fieldType Identifier ';' )*
+	: (fieldModifier* type declarator ';')*
+	;
+
+declarator
+	: variableArrayDeclarator
+	| variableDeclarator
+	;
+
+variableDeclarator
+	: Identifier ('=' variableInitializer)?
+	;
+
+variableInitializer
+	: expression
+	;
+
+variableArrayDeclarator
+	: Identifier ('=' variableArrayInitializer)?
+	;
+
+variableArrayInitializer
+	: '{' variableArrayInitializerList? '}'
+	;
+
+expression
+	: '1'
+	;
+
+variableArrayInitializerList
+	: variableInitializer (',' variableInitializer)* 
 	;
 
 fieldModifier
@@ -42,10 +71,7 @@ fieldModifier
 	| 'final'
 	;
 
-fieldType
-	: primitiveType
-	| classType
-	;
+
 
 numericType
 	:	integralType
@@ -95,6 +121,10 @@ JavaLetter
 
 JavaLetterOrDigit
 	:	[a-zA-Z0-9$_];
+
+
+JavaDigit
+	:	[0-9];
 
 //-----------------------------------------------
 Whitespace
