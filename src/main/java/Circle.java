@@ -39,17 +39,17 @@ public class Circle {
 }
 
 
-public static void main(String[] args) {
+// public static void main(String[] args) {
 
-    Circle blue_circle = new Circle(5.0,"blue",5,10);
-    Circle green_circle = new Circle(2.0, "green",-2,0);
+//     Circle blue_circle = new Circle(5.0,"blue",5,10);
+//     Circle green_circle = new Circle(2.0, "green",-2,0);
 
-    Circle[] circles = {blue_circle,green_circle};
+//     Circle[] circles = {blue_circle,green_circle};
 
-    for (int i=0; i < circles.length; ++i){
-        circles[i].printInformation();
-    }
-}
+//     for (int i=0; i < circles.length; ++i){
+//         circles[i].printInformation();
+//     }
+// }
 
 
 

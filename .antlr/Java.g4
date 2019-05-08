@@ -1,12 +1,14 @@
-grammar java;
+grammar Java;
 
 compilationUnit
 	: typeDeclaration* EOF
+	| Whitespace*
+	| Comment*
+	| LineComment*
 	;
 
 typeDeclaration
 	: classDeclaration
-	| ';'
 	;
 
 classDeclaration
@@ -29,12 +31,13 @@ classBodyDeclaration
 	;
 
 fieldDeclaration
-	: fieldModifier* fieldType Identifier ';' ()
+	: fieldModifier* fieldType Identifier ';' ( fieldModifier* fieldType Identifier ';' )*
 	;
 
 fieldModifier
 	: 'public'
 	| 'protected'
+	| 'private'
 	| 'static'
 	| 'final'
 	;
@@ -94,14 +97,14 @@ JavaLetterOrDigit
 	:	[a-zA-Z0-9$_];
 
 //-----------------------------------------------
-WHITESPACE
+Whitespace
 	:  [ \t\r\n\u000C]+ -> skip
     ;
 
-COMMENT
+Comment
     :   '/*' .*? '*/' -> skip
     ;
 
-LINE_COMMENT
+LineComment
     :   '//' ~[\r\n]* -> skip
     ;

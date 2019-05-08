@@ -1,2 +1,12 @@
 *.iml
 .idea/
+.antlr/*.java
+.antlr/*.class
+.antlr/*.interp
+.antlr/*.tokens
+.antlr/.antlr/
+
+.classpath
+.project
+.settings/
+target/
