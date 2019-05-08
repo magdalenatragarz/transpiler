@@ -170,6 +170,25 @@ FloatLiteral
 	|	Digits FloatTypeSuffix?
 	;
 
+fragment
+ExponentPart
+	:	ExponentIndicator SignedInteger
+	;
+
+fragment
+ExponentIndicator
+	:	[eE]
+	;
+
+fragment
+SignedInteger
+	:	Sign? Digits
+	;
+
+fragment
+Sign
+	:	[+-]
+	;
 
 fragment
 FloatTypeSuffix
