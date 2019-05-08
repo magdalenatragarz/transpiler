@@ -1,10 +1,19 @@
 grammar Java;
 
 compilationUnit
-	: typeDeclaration EOF
+	: typeDeclaration* EOF
 	| Whitespace*
 	| Comment*
 	| LineComment*
+	;
+
+literal
+	: BooleanLiteral
+	| CharacterLiteral
+	| FloatLiteral
+	| IntegerLiteral
+	| StringLiteral
+	| NullLiteral
 	;
 
 typeDeclaration
@@ -31,16 +40,13 @@ classBodyDeclaration
 	;
 
 fieldDeclaration
-	: (fieldModifier* type declarator ';')*
+	: (fieldModifier* type variableDeclarator ';')*
 	;
 
-declarator
-	: variableArrayDeclarator
-	| variableDeclarator
-	;
 
 variableDeclarator
 	: Identifier ('=' variableInitializer)?
+	| variableArrayDeclarator 
 	;
 
 variableInitializer
@@ -53,10 +59,11 @@ variableArrayDeclarator
 
 variableArrayInitializer
 	: '{' variableArrayInitializerList? '}'
+	| expression
 	;
 
 expression
-	: '1'
+	: literal
 	;
 
 variableArrayInitializerList
@@ -70,8 +77,6 @@ fieldModifier
 	| 'static'
 	| 'final'
 	;
-
-
 
 numericType
 	:	integralType
@@ -111,30 +116,111 @@ dims
 	: '[' ']' ('[' ']')*
 	;
 
-
-Identifier
-	:	JavaLetter JavaLetterOrDigit*
+//-----------------------------------------------
+IntegerLiteral
+	:	DecimalNumeral IntegerTypeSuffix?
 	;
 
+fragment
+IntegerTypeSuffix
+	:	[lL]
+	;
+
+fragment
+DecimalNumeral
+	:	'0'
+	|	NonZeroDigit (Digits? | Underscores Digits)
+	;
+
+fragment
+Digits
+	:	Digit (DigitsAndUnderscores? Digit)?
+	;
+
+fragment
+Digit
+	:	'0'
+	|	NonZeroDigit
+	;
+
+fragment
+NonZeroDigit
+	:	[1-9]
+	;
+
+fragment
+DigitsAndUnderscores
+	:	DigitOrUnderscore+
+	;
+
+fragment
+DigitOrUnderscore
+	:	Digit
+	|	'_'
+	;
+
+fragment
+Underscores
+	:	'_'+
+	;
+
+FloatLiteral
+	:	Digits '.' Digits?  FloatTypeSuffix?
+	|	'.' Digits FloatTypeSuffix?
+	|	Digits FloatTypeSuffix?
+	;
+
+
+fragment
+FloatTypeSuffix
+	:	[fFdD]
+	;
+
+BooleanLiteral
+	:	'true'
+	|	'false'
+	;
+
+CharacterLiteral
+	:	'\'' SingleCharacter '\''
+	;
+
+fragment
+SingleCharacter
+	:	~['\\\r\n]
+	;
+
+StringLiteral
+	:	'"' StringCharacters? '"'
+	;
+fragment
+StringCharacters
+	:	StringCharacter+
+	;
+fragment
+StringCharacter
+	:	~["\\\r\n]
+	;
+
+fragment
+ZeroToThree
+	:	[0-3]
+	;
+
+NullLiteral
+	:	'null'
+	;
+
+Identifier
+	: JavaLetter JavaLetterOrDigit*;
+	
 JavaLetter
-	:	[a-zA-Z$_];
+	: [a-zA-Z$_];
 
 JavaLetterOrDigit
-	:	[a-zA-Z0-9$_];
-
-
-JavaDigit
-	:	[0-9];
+	:[a-zA-Z0-9$_];
 
 //-----------------------------------------------
-Whitespace
-	:  [ \t\r\n\u000C]+ -> skip
-    ;
-
-Comment
-    :   '/*' .*? '*/' -> skip
-    ;
-
-LineComment
-    :   '//' ~[\r\n]* -> skip
-    ;
+Whitespace:  	[ \t\r\n\u000C]+ -> skip;
+Comment:   		'/*' .*? '*/' -> skip;
+LineComment:   	'//' ~[\r\n]* -> skip;
