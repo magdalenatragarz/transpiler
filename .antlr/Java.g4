@@ -2,10 +2,9 @@ grammar Java;
 
 compilationUnit
 	: typeDeclaration* EOF
-	| Whitespace*
-	| Comment*
-	| LineComment*
-	;
+	| WHITESPACE*
+	| COMMENT*
+	| LINE_COMMENT*;
 
 literal
 	: BooleanLiteral
@@ -13,233 +12,215 @@ literal
 	| FloatLiteral
 	| IntegerLiteral
 	| StringLiteral
-	| NullLiteral
-	;
+	| NullLiteral;
 
 typeDeclaration
-	: classDeclaration
-	;
+	: classDeclaration;
 
 classDeclaration
-	: classModifier* 'class' Identifier classBody
-	;
+	: classModifier* CLASS_KEYWORD Identifier classBody;
 
 classModifier
-	: 'public'
-	| 'protected'
-	| 'private'
-	| 'static'
-	;
+	: PUBLIC_KEYWORD
+	| PROTECTED_KEYWORD
+	| PRIVATE_KEYWORD
+	| STATIC_KEYWORD;
 
 classBody
-	: '{' classBodyDeclaration '}'
-	;
+	: LEFTCURLYBRACKET_SEPARATOR classBodyDeclaration RIGHTCURLYBRACKET_SEPARATOR;
 
 classBodyDeclaration
-	: fieldDeclaration
-	;
+	: fieldDeclaration;
 
 fieldDeclaration
-	: (fieldModifier* type variableDeclarator ';')*
-	;
-
+	: (fieldModifier* type variableDeclarator SEMICOLON_SEPARATOR)*;
 
 variableDeclarator
-	: Identifier ('=' variableInitializer)?
-	| variableArrayDeclarator 
-	;
+	: Identifier (OPERATORS_ASSIGNMENT variableInitializer)?
+	| variableArrayDeclarator ;
 
 variableInitializer
-	: expression
-	;
+	: expression;
 
 variableArrayDeclarator
-	: Identifier ('=' variableArrayInitializer)?
-	;
+	: Identifier (OPERATORS_ASSIGNMENT variableArrayInitializer)?;
 
 variableArrayInitializer
-	: '{' variableArrayInitializerList? '}'
-	| expression
-	;
+	: LEFTCURLYBRACKET_SEPARATOR variableArrayInitializerList? RIGHTCURLYBRACKET_SEPARATOR
+	| expression;
 
 expression
-	: literal
-	;
+	: literal;
 
 variableArrayInitializerList
-	: variableInitializer (',' variableInitializer)* 
-	;
+	: variableInitializer (COMMA_SEPARATOR variableInitializer)*;
 
 fieldModifier
-	: 'public'
-	| 'protected'
-	| 'private'
-	| 'static'
-	| 'final'
-	;
+	: PUBLIC_KEYWORD
+	| PROTECTED_KEYWORD
+	| PRIVATE_KEYWORD
+	| STATIC_KEYWORD
+	| FINAL_KEYWORD;
 
 numericType
 	:	integralType
-	|	floatingPointType
-	;
+	|	floatingPointType;
 
 integralType
-	:	'int'
-	|	'char'
-	;
+	:	INT_KEYWORD
+	|	CHAR_KEYWORD;
 
 floatingPointType
-	:	'float'
-	|	'double'
-	;
+	:	DOUBLE_KEYWORD
+	|	FLOAT_KEYWORD;
 
 primitiveType
 	: numericType
-	| 'boolean'
-	;
+	| BOOLEAN_KEYWORD;
 
 type
 	: classType
 	| primitiveType
-	| arrayType
-	;
+	| arrayType;
 
 classType
 	: Identifier;
 
 arrayType
 	: primitiveType dims
-	| classType dims
-	;
+	| classType dims;
 
 dims
-	: '[' ']' ('[' ']')*
-	;
+	: LEFTSQUAREBRACKET_SEPARATOR RIGHTSQUAREBRACKET_SEPARATOR (LEFTSQUAREBRACKET_SEPARATOR RIGHTSQUAREBRACKET_SEPARATOR)*;
 
 //-----------------------------------------------
 IntegerLiteral
-	:	DecimalNumeral IntegerTypeSuffix?
-	;
+	: DecimalNumeral IntegerTypeSuffix?;
 
 fragment
 IntegerTypeSuffix
-	:	[lL]
-	;
+	: [lL];
 
 fragment
 DecimalNumeral
-	:	'0'
-	|	NonZeroDigit (Digits? | Underscores Digits)
-	;
+	: Zero
+	| NonZeroDigit (Digits? | Underscores Digits);
 
 fragment
 Digits
-	:	Digit (DigitsAndUnderscores? Digit)?
-	;
+	: Digit (DigitsAndUnderscores? Digit)?;
 
 fragment
 Digit
-	:	'0'
-	|	NonZeroDigit
-	;
-
-fragment
-NonZeroDigit
-	:	[1-9]
-	;
+	: Zero
+	| NonZeroDigit;
 
 fragment
 DigitsAndUnderscores
-	:	DigitOrUnderscore+
-	;
+	: DigitOrUnderscore+;
 
 fragment
 DigitOrUnderscore
-	:	Digit
-	|	'_'
-	;
+	: Digit
+	| UNDERSCORE_SEPARATOR;
 
 fragment
 Underscores
-	:	'_'+
-	;
+	: UNDERSCORE_SEPARATOR+;
 
 FloatLiteral
-	:	Digits '.' Digits?  FloatTypeSuffix?
-	|	'.' Digits FloatTypeSuffix?
-	|	Digits FloatTypeSuffix?
-	;
+	: Digits DOT_SEPARATOR Digits?  FloatTypeSuffix?
+	| DOT_SEPARATOR Digits FloatTypeSuffix?
+	| Digits FloatTypeSuffix?;
 
 fragment
 ExponentPart
-	:	ExponentIndicator SignedInteger
-	;
+	: ExponentIndicator SignedInteger;
 
 fragment
 ExponentIndicator
-	:	[eE]
-	;
+	: [eE];
 
 fragment
 SignedInteger
-	:	Sign? Digits
-	;
+	: Sign? Digits;
 
 fragment
 Sign
-	:	[+-]
-	;
+	: [+-];
 
 fragment
 FloatTypeSuffix
-	:	[fFdD]
-	;
-
-BooleanLiteral
-	:	'true'
-	|	'false'
-	;
+	: [fFdD];
 
 CharacterLiteral
-	:	'\'' SingleCharacter '\''
-	;
-
-fragment
-SingleCharacter
-	:	~['\\\r\n]
-	;
+	: '\'' SingleCharacter '\'';
 
 StringLiteral
-	:	'"' StringCharacters? '"'
-	;
+	: '"' StringCharacters? '"';
+
 fragment
 StringCharacters
-	:	StringCharacter+
-	;
+	: StringCharacter+;
+
+
+// LEXER -----------------------------------------------
 fragment
-StringCharacter
-	:	~["\\\r\n]
-	;
+SingleCharacter: 	~['\\\r\n];
 
 fragment
-ZeroToThree
-	:	[0-3]
-	;
+StringCharacter: 	~["\\\r\n];
 
-NullLiteral
-	:	'null'
-	;
+fragment
+ZeroToThree: 	[0-3];
 
-Identifier
-	: JavaLetter JavaLetterOrDigit*;
-	
-JavaLetter
-	: [a-zA-Z$_];
+fragment
+NonZeroDigit: 	[1-9];
 
-JavaLetterOrDigit
-	:[a-zA-Z0-9$_];
+Zero: 			'0';
+NullLiteral:  	'null';
+BooleanLiteral: 'true'|'false';	
 
-//-----------------------------------------------
-Whitespace:  	[ \t\r\n\u000C]+ -> skip;
-Comment:   		'/*' .*? '*/' -> skip;
-LineComment:   	'//' ~[\r\n]* -> skip;
+
+// KEYWORDS
+CLASS_KEYWORD: 		'class';
+PUBLIC_KEYWORD:		'public';
+PROTECTED_KEYWORD:	'protected';
+PRIVATE_KEYWORD:	'private';
+STATIC_KEYWORD:		'static';
+FINAL_KEYWORD:		'final';
+BOOLEAN_KEYWORD:	'boolean';
+INT_KEYWORD:		'int';
+CHAR_KEYWORD:		'char';
+DOUBLE_KEYWORD:		'double';
+FLOAT_KEYWORD:		'float';
+
+// SEPARATORS
+SEMICOLON_SEPARATOR: 			';';
+COMMA_SEPARATOR:				',';
+DOT_SEPARATOR:					'.';
+LEFTCURLYBRACKET_SEPARATOR:		'{';
+RIGHTCURLYBRACKET_SEPARATOR:	'}';
+LEFTSQUAREBRACKET_SEPARATOR:	'[';
+RIGHTSQUAREBRACKET_SEPARATOR:	']';
+UNDERSCORE_SEPARATOR:			'_';
+
+// OPERATORS
+OPERATORS_ASSIGNMENT:	'=';
+
+COMMENTS_LINE:    			'//';
+COMMENTS_BLOCK_OPENING:		'/*';
+COMMENTS_BLOCK_CLOSING:		'*/';
+
+
+Identifier: JavaLetter JavaLetterOrDigit*;
+
+fragment
+JavaLetter:			[a-zA-Z$_];
+
+fragment
+JavaLetterOrDigit: 	[a-zA-Z0-9$_];
+
+WHITESPACE:  	[ \t\r\n\u000C]+ -> skip;
+COMMENT:   		COMMENTS_BLOCK_OPENING .*? COMMENTS_BLOCK_CLOSING -> skip;
+LINE_COMMENT:   COMMENTS_LINE ~[\r\n]* -> skip;
