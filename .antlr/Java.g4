@@ -1,39 +1,72 @@
 grammar Java;
 
 compilationUnit
-	: typeDeclaration* EOF
+	: function* EOF
 	| WHITESPACE*
 	| COMMENT*
 	| LINE_COMMENT*;
 
 literal
 	: BooleanLiteral
-	| CharacterLiteral
-	| FloatLiteral
 	| IntegerLiteral
-	| StringLiteral
 	| NullLiteral;
 
-typeDeclaration
-	: classDeclaration;
+function
+	: functionDeclaration LEFTCURLYBRACKET_SEPARATOR body RIGHTCURLYBRACKET_SEPARATOR;
 
-classDeclaration
-	: classModifier* CLASS_KEYWORD Identifier classBody;
+functionDeclaration
+	: modifier* type Identifier RIGHT_BRACKET parameters* LEFT_BRACKET
+	;
 
-classModifier
+parameters
+	: parameter (COMMA_SEPARATOR parameter)*
+	;
+
+parameter
+	: type Identifier
+	;
+
+modifier
 	: PUBLIC_KEYWORD
 	| PROTECTED_KEYWORD
 	| PRIVATE_KEYWORD
-	| STATIC_KEYWORD;
+	| STATIC_KEYWORD
+	| FINAL_KEYWORD
+	;
 
-classBody
-	: LEFTCURLYBRACKET_SEPARATOR classBodyDeclaration RIGHTCURLYBRACKET_SEPARATOR;
+expression 
+    : EXCLAMATION  expression 
+    | expression operators expression
+    | atom;
 
-classBodyDeclaration
-	: fieldDeclaration;
+body
+	: lines*;
+
+lines
+	: statement
+	|	fieldDeclaration
+	| returnStatement;
+
+statement
+	: ifStatement
+	| whileStatement
+	; 
+
+ifStatement
+	: IF_KEYWORD LEFT_BRACKET expression RIGHT_BRACKET LEFTCURLYBRACKET_SEPARATOR body RIGHTCURLYBRACKET_SEPARATOR
+	(ELIF_KEYWORD LEFT_BRACKET expression RIGHT_BRACKET LEFTCURLYBRACKET_SEPARATOR body RIGHTCURLYBRACKET_SEPARATOR)*
+	(ELSE_KEYWORD LEFTCURLYBRACKET_SEPARATOR body RIGHTCURLYBRACKET_SEPARATOR)?
+	;
+
+whileStatement
+	: WHILE_KEYWORD LEFT_BRACKET expression RIGHT_BRACKET LEFTCURLYBRACKET_SEPARATOR body RIGHTCURLYBRACKET_SEPARATOR
+	;
+
+returnStatement
+	: RETURN_KEYWORD expression;
 
 fieldDeclaration
-	: (fieldModifier* type variableDeclarator SEMICOLON_SEPARATOR)*;
+	: (type variableDeclarator SEMICOLON_SEPARATOR);
 
 variableDeclarator
 	: Identifier (OPERATORS_ASSIGNMENT variableInitializer)?
@@ -49,130 +82,52 @@ variableArrayInitializer
 	: LEFTCURLYBRACKET_SEPARATOR variableArrayInitializerList? RIGHTCURLYBRACKET_SEPARATOR
 	| expression;
 
-expression
-	: literal;
+atom
+	: literal
+	| Identifier
+	| LEFT_BRACKET expression RIGHT_BRACKET;
+
+
+
+operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR;
 
 variableArrayInitializerList
 	: variableInitializer (COMMA_SEPARATOR variableInitializer)*;
 
-fieldModifier
-	: PUBLIC_KEYWORD
-	| PROTECTED_KEYWORD
-	| PRIVATE_KEYWORD
-	| STATIC_KEYWORD
-	| FINAL_KEYWORD;
-
-numericType
-	:	integralType
-	|	floatingPointType;
-
-integralType
-	:	INT_KEYWORD
-	|	CHAR_KEYWORD;
-
-floatingPointType
-	:	DOUBLE_KEYWORD
-	|	FLOAT_KEYWORD;
-
 primitiveType
-	: numericType
+	: INT_KEYWORD
 	| BOOLEAN_KEYWORD;
 
 type
-	: classType
+	:
 	| primitiveType
 	| arrayType;
 
-classType
-	: Identifier;
-
 arrayType
 	: primitiveType dims
-	| classType dims;
+	;
 
 dims
 	: LEFTSQUAREBRACKET_SEPARATOR RIGHTSQUAREBRACKET_SEPARATOR (LEFTSQUAREBRACKET_SEPARATOR RIGHTSQUAREBRACKET_SEPARATOR)*;
 
 //-----------------------------------------------
+
 IntegerLiteral
-	: DecimalNumeral IntegerTypeSuffix?;
-
-fragment
-IntegerTypeSuffix
-	: [lL];
-
-fragment
-DecimalNumeral
 	: Zero
-	| NonZeroDigit (Digits? | Underscores Digits);
+	| NonZeroDigit (Digits?) ;
 
 fragment
 Digits
-	: Digit (DigitsAndUnderscores? Digit)?;
+	: Digit (Digit)?;
 
 fragment
 Digit
 	: Zero
 	| NonZeroDigit;
 
-fragment
-DigitsAndUnderscores
-	: DigitOrUnderscore+;
-
-fragment
-DigitOrUnderscore
-	: Digit
-	| UNDERSCORE_SEPARATOR;
-
-fragment
-Underscores
-	: UNDERSCORE_SEPARATOR+;
-
-FloatLiteral
-	: Digits DOT_SEPARATOR Digits?  FloatTypeSuffix?
-	| DOT_SEPARATOR Digits FloatTypeSuffix?
-	| Digits FloatTypeSuffix?;
-
-fragment
-ExponentPart
-	: ExponentIndicator SignedInteger;
-
-fragment
-ExponentIndicator
-	: [eE];
-
-fragment
-SignedInteger
-	: Sign? Digits;
-
-fragment
-Sign
-	: [+-];
-
-fragment
-FloatTypeSuffix
-	: [fFdD];
-
-CharacterLiteral
-	: '\'' SingleCharacter '\'';
-
-StringLiteral
-	: '"' StringCharacters? '"';
-
-fragment
-StringCharacters
-	: StringCharacter+;
-
 
 // LEXER -----------------------------------------------
-fragment
-SingleCharacter: 	~['\\\r\n];
 
-fragment
-StringCharacter: 	~["\\\r\n];
-
-fragment
-ZeroToThree: 	[0-3];
 
 fragment
 NonZeroDigit: 	[1-9];
@@ -183,17 +138,20 @@ BooleanLiteral: 'true'|'false';
 
 
 // KEYWORDS
-CLASS_KEYWORD: 		'class';
-PUBLIC_KEYWORD:		'public';
-PROTECTED_KEYWORD:	'protected';
-PRIVATE_KEYWORD:	'private';
-STATIC_KEYWORD:		'static';
-FINAL_KEYWORD:		'final';
+MAIN_KEYWORD: 		'public static void main(String[] argv)';
 BOOLEAN_KEYWORD:	'boolean';
 INT_KEYWORD:		'int';
-CHAR_KEYWORD:		'char';
-DOUBLE_KEYWORD:		'double';
-FLOAT_KEYWORD:		'float';
+WHILE_KEYWORD: 	'while';
+IF_KEYWORD: 	'if';
+ELIF_KEYWORD :	'elif';
+ELSE_KEYWORD:	'else';
+RETURN_KEYWORD: 'return';
+
+PUBLIC_KEYWORD:'public';
+PROTECTED_KEYWORD:'protected';
+PRIVATE_KEYWORD:'private';
+STATIC_KEYWORD:'static';
+FINAL_KEYWORD:'final';
 
 // SEPARATORS
 SEMICOLON_SEPARATOR: 			';';
@@ -203,10 +161,21 @@ LEFTCURLYBRACKET_SEPARATOR:		'{';
 RIGHTCURLYBRACKET_SEPARATOR:	'}';
 LEFTSQUAREBRACKET_SEPARATOR:	'[';
 RIGHTSQUAREBRACKET_SEPARATOR:	']';
-UNDERSCORE_SEPARATOR:			'_';
+LEFT_BRACKET: '(';
+RIGHT_BRACKET: ')';
 
+ANDAND : '&&';
+OROR : '||';
+EQUAL : '==';
+NOT_EQUAL : '!=';
+LESS : '<';
+LESS_EQUAL : '<=';
+GREATER : '>';
+GREATER_EQUAL : '>=';
+
+EXCLAMATION: '!';
 // OPERATORS
-OPERATORS_ASSIGNMENT:	'=';
+OPERATORS_ASSIGNMENT:		'=';
 
 COMMENTS_LINE:    			'//';
 COMMENTS_BLOCK_OPENING:		'/*';
