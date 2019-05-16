@@ -12,15 +12,29 @@ literal
 	| NullLiteral;
 
 function
-	: functionDeclaration LEFTCURLYBRACKET_SEPARATOR body RIGHTCURLYBRACKET_SEPARATOR;
+	: modifier* methodHeader methodBody;
 
-functionDeclaration
-	: modifier* type Identifier RIGHT_BRACKET parameters* LEFT_BRACKET
+methodHeader
+	:	result methodDeclarator 
 	;
 
-parameters
-	: parameter (COMMA_SEPARATOR parameter)*
+methodBody
+	:	LEFTCURLYBRACKET_SEPARATOR lines* RIGHTCURLYBRACKET_SEPARATOR
 	;
+
+result
+	:	type
+	|	'void'
+	;
+
+methodDeclarator
+	:	Identifier '(' parameterList? ')' 
+	;
+
+parameterList
+	:	parameter (',' parameter)*
+	;
+
 
 parameter
 	: type Identifier
@@ -43,9 +57,9 @@ body
 	: lines*;
 
 lines
-	: statement
+	: 	statement
 	|	fieldDeclaration
-	| returnStatement;
+	| 	returnStatement;
 
 statement
 	: ifStatement
@@ -66,7 +80,7 @@ returnStatement
 	: RETURN_KEYWORD expression;
 
 fieldDeclaration
-	: (type variableDeclarator SEMICOLON_SEPARATOR);
+	: type variableDeclarator SEMICOLON_SEPARATOR;
 
 variableDeclarator
 	: Identifier (OPERATORS_ASSIGNMENT variableInitializer)?
