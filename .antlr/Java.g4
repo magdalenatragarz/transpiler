@@ -37,6 +37,7 @@ modifier
 	| STATIC_KEYWORD
 	| FINAL_KEYWORD;
 
+
 expression 
     : EXCLAMATION  expression 
     | expression operators expression
@@ -51,7 +52,7 @@ lines
 	| fieldDeclaration;
 
 assignment
-	:	leftHandSide asgn_operators rightHandSide SEMICOLON;
+	: leftHandSide asgn_operators rightHandSide SEMICOLON;
 
 leftHandSide
 	: variableAccess
@@ -101,7 +102,7 @@ variableArrayInitializer
 	| expression
 	| atom;
 
-operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR | PLUS | MINUS;
+operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR | PLUS | MINUS | SUB | MUL;
 asgn_operators : ADD_ASSIGN  | MUL_ASSIGN | DIV_ASSIGN | SUB_ASSIGN | OPERATORS_ASSIGNMENT;
 
 atom
@@ -189,6 +190,10 @@ GREATER_EQUAL : '>=';
 EXCLAMATION: 	'!';
 PLUS:			'+';
 MINUS:			'-';
+SUB: 			'/';
+MUL:			'*';
+
+INC:			'++';
 
 ADD_ASSIGN : '+=';
 SUB_ASSIGN : '-=';
