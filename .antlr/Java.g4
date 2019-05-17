@@ -6,6 +6,7 @@ compilationUnit
 literal
 	: BooleanLiteral
 	| IntegerLiteral
+	| CharacterLiteral
 	| NullLiteral;
 
 function
@@ -102,7 +103,7 @@ variableArrayInitializer
 	| expression
 	| atom;
 
-operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR | PLUS | MINUS | SUB | MUL;
+operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR | PLUS | MINUS | DIV | MUL;
 asgn_operators : ADD_ASSIGN  | MUL_ASSIGN | DIV_ASSIGN | SUB_ASSIGN | OPERATORS_ASSIGNMENT;
 
 atom
@@ -115,7 +116,8 @@ variableArrayInitializerList
 
 primitiveType
 	: INT_KEYWORD
-	| BOOLEAN_KEYWORD;
+	| BOOLEAN_KEYWORD
+	| CHAR_KEYWORD;
 
 type
 	: primitiveType
@@ -142,6 +144,13 @@ Digit
 	: Zero
 	| NonZeroDigit;
 
+CharacterLiteral
+	: '\'' SingleCharacter '\'';
+
+fragment
+SingleCharacter
+	: ~['\\\r\n];
+
 
 // LEXER -----------------------------------------------
 fragment
@@ -155,6 +164,7 @@ BooleanLiteral: 'true'|'false';
 // KEYWORDS
 BOOLEAN_KEYWORD:	'boolean';
 INT_KEYWORD:		'int';
+CHAR_KEYWORD:		'char';
 WHILE_KEYWORD: 		'while';
 IF_KEYWORD: 		'if';
 ELIF_KEYWORD :		'elif';
@@ -190,10 +200,9 @@ GREATER_EQUAL : '>=';
 EXCLAMATION: 	'!';
 PLUS:			'+';
 MINUS:			'-';
-SUB: 			'/';
+DIV: 			'/';
 MUL:			'*';
 
-INC:			'++';
 
 ADD_ASSIGN : '+=';
 SUB_ASSIGN : '-=';
