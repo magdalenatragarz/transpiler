@@ -1,6 +1,5 @@
 *.iml
 .idea/
-.antlr/*.java
 .antlr/*.class
 .antlr/*.interp
 .antlr/*.tokens
