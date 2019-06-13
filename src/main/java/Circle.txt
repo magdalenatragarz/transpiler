@@ -1,0 +1,21 @@
+ public static void main(String[] argv){
+
+         int radius=5;
+         int x=5;
+         int y=10;
+         int pi=3;
+         if(x==0||y==0){
+         boolean a=false;
+         }else if(x>0&&y< 0){
+         boolean a=true;
+         }else{
+         boolean a=null;
+         }
+         int area = pi*radius*radius
+         while(radius>0)        {
+             radius=radius-1;
+         }
+}
+
+
+

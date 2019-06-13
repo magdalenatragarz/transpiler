@@ -58,7 +58,7 @@ expression
 
 atom : INTEGER | BOOLEAN | LEFT_BRACKET expression RIGHT_BRACKET;
 
-operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR;
+operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | ANDAND | OROR | PLUS | MINUS |MULTIPLICATION;
 
 // lex
 Identifier
@@ -172,6 +172,17 @@ RETURN_KEYWORD
 
 BOOLEAN_KEYWORD
     :   'boolean'
+    ;
+
+PLUS
+    : '+'
+    ;
+MINUS
+    : '-'
+    ;
+
+MULTIPLICATION
+    : '*'
     ;
 
 WHITESPACE:  	[ \t\r\n\u000C]+ -> skip;
