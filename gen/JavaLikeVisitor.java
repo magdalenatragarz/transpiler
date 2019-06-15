@@ -166,6 +166,24 @@ public interface JavaLikeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(JavaLikeParser.IfStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#basicIfStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBasicIfStatement(JavaLikeParser.BasicIfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#elsefifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElsefifStatement(JavaLikeParser.ElsefifStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#elseStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseStatement(JavaLikeParser.ElseStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link JavaLikeParser#whileStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -190,17 +208,35 @@ public interface JavaLikeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableDeclarator(JavaLikeParser.VariableDeclaratorContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#variableName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableName(JavaLikeParser.VariableNameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link JavaLikeParser#variableInitializer}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVariableInitializer(JavaLikeParser.VariableInitializerContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JavaLikeParser#variableArrayDeclarator}.
+	 * Visit a parse tree produced by {@link JavaLikeParser#basicDeclarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVariableArrayDeclarator(JavaLikeParser.VariableArrayDeclaratorContext ctx);
+	T visitBasicDeclarator(JavaLikeParser.BasicDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#basicVariableDeclarationInitialization}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBasicVariableDeclarationInitialization(JavaLikeParser.BasicVariableDeclarationInitializationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#variableArrayDeclarationInitialization}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableArrayDeclarationInitialization(JavaLikeParser.VariableArrayDeclarationInitializationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JavaLikeParser#variableArrayInitializer}.
 	 * @param ctx the parse tree

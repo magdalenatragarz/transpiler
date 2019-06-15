@@ -1,15 +1,21 @@
+import instructions.ClosingInstruction;
+import instructions.Instruction;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MatlabFunctionBuilder {
 
-    String functionName;
-    List<String> parameters;
-    List<String> instructions;
+    private String functionName;
+    private List<String> parameters;
+    private List<Instruction> instructions;
+
+    StringBuilder sb;
 
     public MatlabFunctionBuilder() {
-        parameters = new ArrayList<>();
-        instructions = new ArrayList<>();
+        this.parameters = new ArrayList<>();
+        this.instructions = new ArrayList<>();
+        this.sb = new StringBuilder();
     }
 
     public void setFunctionName(String functionName) {
@@ -20,16 +26,15 @@ public class MatlabFunctionBuilder {
         parameters.add(parameterName);
     }
 
-    public void addInstruction(String instruction){
+    public void addInstruction(Instruction instruction){
         instructions.add(instruction);
     }
 
     public void addClosing(){
-        instructions.add("end\n");
+        instructions.add(new ClosingInstruction());
     }
 
-    public String build(){
-        StringBuilder sb = new StringBuilder();
+    public void buildMethodHeader(){
         sb.append("function out = ")
                 .append(functionName)
                 .append("(");
@@ -40,6 +45,19 @@ public class MatlabFunctionBuilder {
             }
         }
         sb.append(")\n");
+    }
+
+    public void buildInstructions(){
+        for (Instruction instruction : instructions){
+            sb.append(instruction.render());
+        }
+    }
+
+    public String build(){
+        buildMethodHeader();
+        buildInstructions();
         return sb.toString();
     }
+
+
 }

@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import instructions.*;
 
 public class JavaLikeListenerImpl implements JavaLikeListener {
 
@@ -18,23 +19,8 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
     }
 
     @Override
-    public void enterCompilationUnit(JavaLikeParser.CompilationUnitContext ctx) {
-
-    }
-
-    @Override
     public void exitCompilationUnit(JavaLikeParser.CompilationUnitContext ctx) {
         builder.setFunctions(functionBuilders);
-    }
-
-    @Override
-    public void enterLiteral(JavaLikeParser.LiteralContext ctx) {
-
-    }
-
-    @Override
-    public void exitLiteral(JavaLikeParser.LiteralContext ctx) {
-
     }
 
     @Override
@@ -45,6 +31,103 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
     @Override
     public void exitFunction(JavaLikeParser.FunctionContext ctx) {
         functionBuilders.get(functionBuilders.size()-1).addClosing();
+    }
+
+    @Override
+    public void enterMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx) {
+        functionBuilders.get(functionBuilders.size()-1).setFunctionName(ctx.methodName().getText());
+    }
+
+    @Override
+    public void enterParameter(JavaLikeParser.ParameterContext ctx) {
+        functionBuilders.get(functionBuilders.size()-1).addParameter(ctx.parameterName().getText());
+    }
+
+
+    @Override
+    public void exitIfStatement(JavaLikeParser.IfStatementContext ctx) {
+        functionBuilders.get(functionBuilders.size()-1).addClosing();
+    }
+
+    @Override
+    public void enterBasicIfStatement(JavaLikeParser.BasicIfStatementContext ctx) {
+        IfInstruction ifInstruction = new IfInstruction();
+        ifInstruction.setKey("if");
+        ifInstruction.setRelationalExpression(ctx.relationalExpression().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(ifInstruction);
+    }
+
+    @Override
+    public void enterElsefifStatement(JavaLikeParser.ElsefifStatementContext ctx) {
+        IfInstruction ifInstruction = new IfInstruction();
+        ifInstruction.setKey("elif");
+        ifInstruction.setRelationalExpression(ctx.relationalExpression().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(ifInstruction);
+    }
+
+    @Override
+    public void enterElseStatement(JavaLikeParser.ElseStatementContext ctx) {
+        IfInstruction ifInstruction = new IfInstruction();
+        ifInstruction.setKey("else");
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(ifInstruction);
+    }
+
+
+    @Override
+    public void enterVariableArrayDeclarationInitialization(JavaLikeParser.VariableArrayDeclarationInitializationContext ctx) {
+        ArrayDeclarationInstruction arrayDeclarationInstruction = new ArrayDeclarationInstruction();
+        arrayDeclarationInstruction.setName(ctx.variableName().getText());
+        arrayDeclarationInstruction.setInitializationList(ctx.variableArrayInitializer().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(arrayDeclarationInstruction);
+    }
+
+    @Override
+    public void enterBasicVariableDeclarationInitialization(JavaLikeParser.BasicVariableDeclarationInitializationContext ctx) {
+        FieldDeclarationInstruction fieldDeclarationInstruction = new FieldDeclarationInstruction();
+        fieldDeclarationInstruction.setName(ctx.variableName().getText());
+        fieldDeclarationInstruction.setDeclarator(ctx.variableInitializer().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(fieldDeclarationInstruction);
+
+    }
+
+    @Override
+    public void enterCompilationUnit(JavaLikeParser.CompilationUnitContext ctx) {
+
+    }
+
+    @Override
+    public void enterBasicDeclarator(JavaLikeParser.BasicDeclaratorContext ctx) {
+
+    }
+
+    @Override
+    public void enterVariableDeclarator(JavaLikeParser.VariableDeclaratorContext ctx) {
+
+    }
+
+    @Override
+    public void enterFieldDeclaration(JavaLikeParser.FieldDeclarationContext ctx) {
+
+    }
+
+    @Override
+    public void enterRelationalExpression(JavaLikeParser.RelationalExpressionContext ctx) {
+
+    }
+
+    @Override
+    public void enterIfStatement(JavaLikeParser.IfStatementContext ctx) {
+
+    }
+
+    @Override
+    public void enterLiteral(JavaLikeParser.LiteralContext ctx) {
+
+    }
+
+    @Override
+    public void exitLiteral(JavaLikeParser.LiteralContext ctx) {
+
     }
 
     @Override
@@ -75,10 +158,7 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     }
 
-    @Override
-    public void enterMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx) {
-        functionBuilders.get(functionBuilders.size()-1).setFunctionName(ctx.methodName().getText());
-    }
+
 
     @Override
     public void exitMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx) {
@@ -105,10 +185,7 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     }
 
-    @Override
-    public void enterParameter(JavaLikeParser.ParameterContext ctx) {
-        functionBuilders.get(functionBuilders.size()-1).addParameter(ctx.parameterName().getText());
-    }
+
 
     @Override
     public void exitParameter(JavaLikeParser.ParameterContext ctx) {
@@ -172,11 +249,6 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void exitMultiplicativeExpression(JavaLikeParser.MultiplicativeExpressionContext ctx) {
-
-    }
-
-    @Override
-    public void enterRelationalExpression(JavaLikeParser.RelationalExpressionContext ctx) {
 
     }
 
@@ -266,12 +338,18 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
     }
 
     @Override
-    public void enterIfStatement(JavaLikeParser.IfStatementContext ctx) {
+    public void exitBasicIfStatement(JavaLikeParser.BasicIfStatementContext ctx) {
 
     }
 
     @Override
-    public void exitIfStatement(JavaLikeParser.IfStatementContext ctx) {
+    public void exitElsefifStatement(JavaLikeParser.ElsefifStatementContext ctx) {
+
+    }
+
+    @Override
+    public void exitElseStatement(JavaLikeParser.ElseStatementContext ctx) {
+
     }
 
     @Override
@@ -293,23 +371,25 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     }
 
-    @Override
-    public void enterFieldDeclaration(JavaLikeParser.FieldDeclarationContext ctx) {
-
-    }
 
     @Override
     public void exitFieldDeclaration(JavaLikeParser.FieldDeclarationContext ctx) {
 
     }
 
+
     @Override
-    public void enterVariableDeclarator(JavaLikeParser.VariableDeclaratorContext ctx) {
+    public void exitVariableDeclarator(JavaLikeParser.VariableDeclaratorContext ctx) {
 
     }
 
     @Override
-    public void exitVariableDeclarator(JavaLikeParser.VariableDeclaratorContext ctx) {
+    public void enterVariableName(JavaLikeParser.VariableNameContext ctx) {
+
+    }
+
+    @Override
+    public void exitVariableName(JavaLikeParser.VariableNameContext ctx) {
 
     }
 
@@ -323,15 +403,23 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     }
 
+
     @Override
-    public void enterVariableArrayDeclarator(JavaLikeParser.VariableArrayDeclaratorContext ctx) {
+    public void exitBasicDeclarator(JavaLikeParser.BasicDeclaratorContext ctx) {
+
+    }
+
+
+    @Override
+    public void exitBasicVariableDeclarationInitialization(JavaLikeParser.BasicVariableDeclarationInitializationContext ctx) {
 
     }
 
     @Override
-    public void exitVariableArrayDeclarator(JavaLikeParser.VariableArrayDeclaratorContext ctx) {
+    public void exitVariableArrayDeclarationInitialization(JavaLikeParser.VariableArrayDeclarationInitializationContext ctx) {
 
     }
+
 
     @Override
     public void enterVariableArrayInitializer(JavaLikeParser.VariableArrayInitializerContext ctx) {

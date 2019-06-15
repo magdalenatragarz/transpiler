@@ -1,10 +1,12 @@
 public static void foo(int x, int y, int z){
+    int[] vars = {1,2,3,4,56,7};
+    boolean[] a;
     int radius=5;
-    int x=5;
+    int x;
     int y=10;
     int pi=3;
 
-    if(x==0 || x==5){
+    if((x==0 || x==5 || x==14) && a+b>0){
         boolean a=false;
     }else if(x>0 && y< 0){
         boolean a=true;
@@ -17,27 +19,5 @@ public static void foo(int x, int y, int z){
         radius=radius-1;
     }
 }
-
-static int foo2(){
-    int radius=5;
-    int x=5;
-    int y=10;
-    int pi=3;
-
-    if(x==0 || x==5){
-        boolean a=false;
-    }else if(x>0 && y< 0){
-        boolean a=true;
-    }else{
-        boolean a=null;
-    }
-
-    int area = pi*radius*radius;
-    while(radius>0){
-        radius=radius-1;
-    }
-}
-
-
 
 

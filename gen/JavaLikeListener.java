@@ -267,6 +267,36 @@ public interface JavaLikeListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(JavaLikeParser.IfStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#basicIfStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBasicIfStatement(JavaLikeParser.BasicIfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#basicIfStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBasicIfStatement(JavaLikeParser.BasicIfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#elsefifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterElsefifStatement(JavaLikeParser.ElsefifStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#elsefifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitElsefifStatement(JavaLikeParser.ElsefifStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseStatement(JavaLikeParser.ElseStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseStatement(JavaLikeParser.ElseStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link JavaLikeParser#whileStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -307,6 +337,16 @@ public interface JavaLikeListener extends ParseTreeListener {
 	 */
 	void exitVariableDeclarator(JavaLikeParser.VariableDeclaratorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#variableName}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableName(JavaLikeParser.VariableNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#variableName}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableName(JavaLikeParser.VariableNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link JavaLikeParser#variableInitializer}.
 	 * @param ctx the parse tree
 	 */
@@ -317,15 +357,35 @@ public interface JavaLikeListener extends ParseTreeListener {
 	 */
 	void exitVariableInitializer(JavaLikeParser.VariableInitializerContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link JavaLikeParser#variableArrayDeclarator}.
+	 * Enter a parse tree produced by {@link JavaLikeParser#basicDeclarator}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariableArrayDeclarator(JavaLikeParser.VariableArrayDeclaratorContext ctx);
+	void enterBasicDeclarator(JavaLikeParser.BasicDeclaratorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link JavaLikeParser#variableArrayDeclarator}.
+	 * Exit a parse tree produced by {@link JavaLikeParser#basicDeclarator}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariableArrayDeclarator(JavaLikeParser.VariableArrayDeclaratorContext ctx);
+	void exitBasicDeclarator(JavaLikeParser.BasicDeclaratorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#basicVariableDeclarationInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void enterBasicVariableDeclarationInitialization(JavaLikeParser.BasicVariableDeclarationInitializationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#basicVariableDeclarationInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void exitBasicVariableDeclarationInitialization(JavaLikeParser.BasicVariableDeclarationInitializationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#variableArrayDeclarationInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableArrayDeclarationInitialization(JavaLikeParser.VariableArrayDeclarationInitializationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#variableArrayDeclarationInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableArrayDeclarationInitialization(JavaLikeParser.VariableArrayDeclarationInitializationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JavaLikeParser#variableArrayInitializer}.
 	 * @param ctx the parse tree

@@ -47,6 +47,7 @@ modifier
 
 expression
     : EXCLAMATION  expression
+    | LEFT_BRACKET expression RIGHT_BRACKET
     | arithmeticExpression
 	| atom;
 
@@ -66,6 +67,7 @@ multiplicativeExpression
 
 relationalExpression
     : atom
+    | LEFT_BRACKET relationalExpression RIGHT_BRACKET
     | expression comparsion_operators expression
     | relationalExpression bool_operators relationalExpression
     ;
@@ -100,9 +102,16 @@ statement
 	| returnStatement;
 
 ifStatement
-	: IF_KEYWORD LEFT_BRACKET relationalExpression RIGHT_BRACKET LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET
-	(ELIF_KEYWORD LEFT_BRACKET relationalExpression RIGHT_BRACKET LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET)*
-	(ELSE_KEYWORD LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET)?;
+	: basicIfStatement elsefifStatement * elseStatement?;
+
+basicIfStatement
+    : IF_KEYWORD LEFT_BRACKET relationalExpression RIGHT_BRACKET LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET;
+
+elsefifStatement
+    : ELIF_KEYWORD LEFT_BRACKET relationalExpression RIGHT_BRACKET LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET;
+
+elseStatement
+    : ELSE_KEYWORD LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET;
 
 whileStatement
 	: WHILE_KEYWORD LEFT_BRACKET relationalExpression RIGHT_BRACKET LEFT_CURLYBRACKET body RIGHT_CURLYBRACKET;
@@ -114,15 +123,25 @@ fieldDeclaration
 	: type variableDeclarator SEMICOLON ;
 
 variableDeclarator
-	: Identifier (OPERATORS_ASSIGNMENT variableInitializer)?
-	| variableArrayDeclarator ;
+	: basicDeclarator
+	| basicVariableDeclarationInitialization
+	| variableArrayDeclarationInitialization;
+
+variableName
+    : Identifier;
 
 variableInitializer
 	: expression
 	| atom;
 
-variableArrayDeclarator
-	: Identifier (OPERATORS_ASSIGNMENT variableArrayInitializer)?;
+basicDeclarator
+    : variableName;
+
+basicVariableDeclarationInitialization
+    : variableName (OPERATORS_ASSIGNMENT variableInitializer)?;
+
+variableArrayDeclarationInitialization
+    : variableName (OPERATORS_ASSIGNMENT variableArrayInitializer)?;
 
 variableArrayInitializer
 	: LEFT_CURLYBRACKET variableArrayInitializerList? RIGHT_CURLYBRACKET
