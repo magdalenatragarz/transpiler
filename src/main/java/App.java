@@ -34,6 +34,8 @@ public class App {
 
             ParseTree parseTree = parser.compilationUnit();
             walker.walk(listener,parseTree);
+            bufferedWriter.write(listener.builder.render());
+            System.out.println(listener.builder.render());
             System.out.println(parseTree.toStringTree(parser)); // print LISP-style tree
             bufferedReader.close();
             bufferedWriter.close();

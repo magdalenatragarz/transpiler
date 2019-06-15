@@ -23,13 +23,19 @@ result
 	| VOID_KEYWORD;
 
 methodDeclarator
-	: Identifier LEFT_BRACKET parameterList? RIGHT_BRACKET;
+	: methodName LEFT_BRACKET parameterList? RIGHT_BRACKET;
+
+methodName
+    : Identifier;
 
 parameterList
 	: parameter (COMMA parameter)*;
 
 parameter
-	: type Identifier;
+	: type parameterName;
+
+parameterName
+    : Identifier;
 
 modifier
 	: PUBLIC_KEYWORD

@@ -1,4 +1,4 @@
-public static void foo(){
+public static void foo(int x, int y, int z){
     int radius=5;
     int x=5;
     int y=10;
@@ -17,6 +17,27 @@ public static void foo(){
         radius=radius-1;
     }
 }
+
+static int foo2(){
+    int radius=5;
+    int x=5;
+    int y=10;
+    int pi=3;
+
+    if(x==0 || x==5){
+        boolean a=false;
+    }else if(x>0 && y< 0){
+        boolean a=true;
+    }else{
+        boolean a=null;
+    }
+
+    int area = pi*radius*radius;
+    while(radius>0){
+        radius=radius-1;
+    }
+}
+
 
 
 

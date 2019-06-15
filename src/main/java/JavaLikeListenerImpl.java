@@ -2,16 +2,29 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.BufferedWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class JavaLikeListenerImpl implements JavaLikeListener {
+
+    public MatlabCodeBuilder builder;
+    private List<MatlabFunctionBuilder> functionBuilders;
+
+    public JavaLikeListenerImpl() {
+        this.builder = new MatlabCodeBuilder();
+        this.functionBuilders = new ArrayList<>();
+    }
 
     @Override
     public void enterCompilationUnit(JavaLikeParser.CompilationUnitContext ctx) {
-        String className = ctx.function().toString();
+
     }
 
     @Override
     public void exitCompilationUnit(JavaLikeParser.CompilationUnitContext ctx) {
-
+        builder.setFunctions(functionBuilders);
     }
 
     @Override
@@ -26,17 +39,16 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void enterFunction(JavaLikeParser.FunctionContext ctx) {
-
+        functionBuilders.add(new MatlabFunctionBuilder());
     }
 
     @Override
     public void exitFunction(JavaLikeParser.FunctionContext ctx) {
-
+        functionBuilders.get(functionBuilders.size()-1).addClosing();
     }
 
     @Override
     public void enterMethodHeader(JavaLikeParser.MethodHeaderContext ctx) {
-
     }
 
     @Override
@@ -51,7 +63,6 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void exitMethodBody(JavaLikeParser.MethodBodyContext ctx) {
-
     }
 
     @Override
@@ -66,11 +77,21 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void enterMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx) {
-
+        functionBuilders.get(functionBuilders.size()-1).setFunctionName(ctx.methodName().getText());
     }
 
     @Override
     public void exitMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx) {
+
+    }
+
+    @Override
+    public void enterMethodName(JavaLikeParser.MethodNameContext ctx) {
+
+    }
+
+    @Override
+    public void exitMethodName(JavaLikeParser.MethodNameContext ctx) {
 
     }
 
@@ -86,11 +107,21 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void enterParameter(JavaLikeParser.ParameterContext ctx) {
-
+        functionBuilders.get(functionBuilders.size()-1).addParameter(ctx.parameterName().getText());
     }
 
     @Override
     public void exitParameter(JavaLikeParser.ParameterContext ctx) {
+
+    }
+
+    @Override
+    public void enterParameterName(JavaLikeParser.ParameterNameContext ctx) {
+
+    }
+
+    @Override
+    public void exitParameterName(JavaLikeParser.ParameterNameContext ctx) {
 
     }
 
@@ -241,7 +272,6 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void exitIfStatement(JavaLikeParser.IfStatementContext ctx) {
-
     }
 
     @Override
@@ -251,7 +281,6 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void exitWhileStatement(JavaLikeParser.WhileStatementContext ctx) {
-
     }
 
     @Override

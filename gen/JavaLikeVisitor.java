@@ -52,6 +52,12 @@ public interface JavaLikeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#methodName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMethodName(JavaLikeParser.MethodNameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link JavaLikeParser#parameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -63,6 +69,12 @@ public interface JavaLikeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParameter(JavaLikeParser.ParameterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaLikeParser#parameterName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterName(JavaLikeParser.ParameterNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JavaLikeParser#modifier}.
 	 * @param ctx the parse tree

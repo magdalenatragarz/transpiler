@@ -77,6 +77,16 @@ public interface JavaLikeListener extends ParseTreeListener {
 	 */
 	void exitMethodDeclarator(JavaLikeParser.MethodDeclaratorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#methodName}.
+	 * @param ctx the parse tree
+	 */
+	void enterMethodName(JavaLikeParser.MethodNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#methodName}.
+	 * @param ctx the parse tree
+	 */
+	void exitMethodName(JavaLikeParser.MethodNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link JavaLikeParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
@@ -96,6 +106,16 @@ public interface JavaLikeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParameter(JavaLikeParser.ParameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaLikeParser#parameterName}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameterName(JavaLikeParser.ParameterNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaLikeParser#parameterName}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameterName(JavaLikeParser.ParameterNameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JavaLikeParser#modifier}.
 	 * @param ctx the parse tree

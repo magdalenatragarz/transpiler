@@ -99,6 +99,18 @@ public class JavaLikeBaseListener implements JavaLikeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMethodName(JavaLikeParser.MethodNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodName(JavaLikeParser.MethodNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterParameterList(JavaLikeParser.ParameterListContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -118,6 +130,18 @@ public class JavaLikeBaseListener implements JavaLikeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParameter(JavaLikeParser.ParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParameterName(JavaLikeParser.ParameterNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameterName(JavaLikeParser.ParameterNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
