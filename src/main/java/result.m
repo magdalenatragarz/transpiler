@@ -1,4 +1,6 @@
 foo(1,2,3)
+mhm()
+aha(1,2,3)
 function out = foo(x,y,z)
 vars = [1,2,3,4,56,7]
 radius = 5

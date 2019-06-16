@@ -19,7 +19,7 @@ public class WhileInstruction implements Instruction {
     }
 
     public void setRelationalExpression(String relationalExpression) {
-        this.relationalExpression = relationalExpression;
+        this.relationalExpression = relationalExpression.replaceAll("!","~");
     }
 
 
