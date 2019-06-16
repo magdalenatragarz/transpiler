@@ -224,7 +224,6 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void enterArithmeticExpression(JavaLikeParser.ArithmeticExpressionContext ctx) {
-
     }
 
     @Override
@@ -279,6 +278,10 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void enterAssignment(JavaLikeParser.AssignmentContext ctx) {
+        AssignmentInstruction assignmentInstruction = new AssignmentInstruction();
+        assignmentInstruction.setName(ctx.leftHandSide().getText());
+        assignmentInstruction.setDeclarator(ctx.rightHandSide().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(assignmentInstruction);
 
     }
 
@@ -354,16 +357,24 @@ public class JavaLikeListenerImpl implements JavaLikeListener {
 
     @Override
     public void enterWhileStatement(JavaLikeParser.WhileStatementContext ctx) {
+        WhileInstruction whileInstruction = new WhileInstruction();
+        whileInstruction.setKey("while");
+        whileInstruction.setRelationalExpression(ctx.relationalExpression().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(whileInstruction);
 
     }
 
     @Override
     public void exitWhileStatement(JavaLikeParser.WhileStatementContext ctx) {
+        functionBuilders.get(functionBuilders.size()-1).addClosing();
+
     }
 
     @Override
     public void enterReturnStatement(JavaLikeParser.ReturnStatementContext ctx) {
-
+        ReturnInstruction returnInstruction = new ReturnInstruction();
+        returnInstruction.setDeclarator(ctx.expression().getText());
+        functionBuilders.get(functionBuilders.size()-1).addInstruction(returnInstruction);
     }
 
     @Override

@@ -1,10 +1,8 @@
 package instructions;
 
-public class FieldDeclarationInstruction implements Instruction {
-
-    private String name;
+public class ReturnInstruction implements Instruction {
+    private String name="out";
     private String declarator;
-
 
     public void setDeclarator(String declarator) {
         if (declarator.equals("null")){
@@ -16,15 +14,8 @@ public class FieldDeclarationInstruction implements Instruction {
         }
 
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String render() {
         return name + " = " + declarator + "\n";
     }
-
-
 }

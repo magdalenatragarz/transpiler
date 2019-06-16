@@ -1,6 +1,6 @@
 package instructions;
 
-public class FieldDeclarationInstruction implements Instruction {
+public class AssignmentInstruction implements Instruction {
 
     private String name;
     private String declarator;
@@ -25,6 +25,4 @@ public class FieldDeclarationInstruction implements Instruction {
     public String render() {
         return name + " = " + declarator + "\n";
     }
-
-
 }

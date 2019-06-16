@@ -49,7 +49,9 @@ expression
     : EXCLAMATION  expression
     | LEFT_BRACKET expression RIGHT_BRACKET
     | arithmeticExpression
+    | assignment
 	| atom;
+
 
 arithmeticExpression
     : LEFT_BRACKET arithmeticExpression RIGHT_BRACKET
@@ -151,7 +153,7 @@ variableArrayInitializer
 comparsion_operators : EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL;
 additive_operators : PLUS | MINUS;
 multiplicative_operators : DIV | MUL;
-assign_operators : ADD_ASSIGN  | MUL_ASSIGN | DIV_ASSIGN | SUB_ASSIGN | OPERATORS_ASSIGNMENT;
+assign_operators : OPERATORS_ASSIGNMENT;
 bool_operators: ANDAND | OROR;
 
 atom
@@ -242,10 +244,6 @@ PLUS:			'+';
 MINUS:			'-';
 DIV: 			'/';
 MUL:			'*';
-ADD_ASSIGN : '+=';
-SUB_ASSIGN : '-=';
-MUL_ASSIGN : '*=';
-DIV_ASSIGN : '/=';
 // OPERATORS
 OPERATORS_ASSIGNMENT:		'=';
 COMMENTS_LINE:    			'//';

@@ -1,4 +1,4 @@
-// Generated from /home/magda/transpil/transpiler/JavaLike.g4 by ANTLR 4.7.2
+// Generated from D:/MOJEPRYWATNE/0nauka/semestr6/SOA/LEL/transpiler\JavaLike.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

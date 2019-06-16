@@ -1,10 +1,6 @@
 package instructions;
 
-import java.util.HashMap;
-
-public class IfInstruction implements Instruction {
-
-
+public class WhileInstruction implements Instruction {
 
     private String key;
     private String relationalExpression;
@@ -23,7 +19,7 @@ public class IfInstruction implements Instruction {
     }
 
     public void setRelationalExpression(String relationalExpression) {
-        this.relationalExpression = relationalExpression.replaceAll("!","~");
+        this.relationalExpression = relationalExpression;
     }
 
 

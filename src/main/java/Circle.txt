@@ -18,6 +18,21 @@ public static void foo(int x, int y, int z){
     while(radius>0){
         radius=radius-1;
     }
+    return radius;
 }
 
-
+public void mhm(){
+    int j=0;
+    j=10*j;
+    while(j){
+        int k=1*j;
+    }
+}
+protected static final void aha(int a, int b, int xD){
+    while(b)
+    {
+        if (!b>0){
+        a = 3;
+    }
+    }
+}

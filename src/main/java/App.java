@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class App {
     public static void main(String[] args) {
-            String inputFile = "/home/magda/transpil/transpiler/src/main/java/Circle.txt";
-            String outputFile = "/home/magda/transpil/transpiler/src/main/java/result.m";
+            String inputFile = "D:\\MOJEPRYWATNE\\0nauka\\semestr6\\SOA\\LEL\\transpiler\\src\\main\\java\\Circle.txt";
+            String outputFile = "D:\\MOJEPRYWATNE\\0nauka\\semestr6\\SOA\\LEL\\transpiler\\src\\main\\java\\result.m";
         try {
 
             FileReader reader = new FileReader(inputFile);
